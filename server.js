@@ -34,11 +34,22 @@ app.use(express.json())
 
 app.get('/', (req, res) => {
     res.send('Yo Dr CHeeze Bee')
+  
 })
 
 app.get('/cheeze', async (req, res) => {
     try {
-        res.json(await Cheeze.find({}))
+        const cheezeData = await Cheeze.find({})
+        res.json(cheezeData)
+    }   catch (error) {
+        res.status(400).json(error)
+    }
+    
+})
+
+app.get('/cheeze/:id', async (req, res) => {
+    try {
+        res.json(await Cheeze.findById(req.params.id))
     } catch (error) {
         res.status(400).json(error)
     }
@@ -52,8 +63,22 @@ app.post('/cheeze', async (req, res) => {
     }
 })
 
+app.put('/cheeze/:id', async (req, res) => {
+    try {
+        res.json(await Cheeze.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        )
+    }   catch (error) {
+        res.status(400).json(error)
+    }
+})
 
-
+app.delete('/cheeze/:id', async (req, res) => {
+    try {
+        res.json(await Cheeze.findByIdAndDelete(req.params.id))
+    }   catch (error) {
+        res.status(400).json(error)
+    }
+})
 
 
 
